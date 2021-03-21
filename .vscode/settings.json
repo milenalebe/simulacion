@@ -1,0 +1,8 @@
+{
+    "python.pythonPath": "C:\\Users\\fravega\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
+    "python.autoComplete.addBrackets": true,
+    "python.disableInstallationCheck": true,
+    "cmake.environment": {
+        "PATH": "C:\\Users\\fravega\\AppData\\Local\\Programs\\Python\\Python39\\Scripts"
+    }
+}
