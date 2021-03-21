@@ -9,30 +9,37 @@ class Ruleta():
         self.ganadores = [] 
         self.nroMaximo = nMax
 
-    # gira la ruleta nVeces y guarda los resultado
-    def girarRuleta(self, nVeces):
-        numero = np.random.randint(0, self.nroMaximo, nVeces)
-        self.ganadores.append(numero)
+    def ganadoresArray(self):
+        return np.array(self.ganadores)
 
-    def graficarFrecuenciaRelativa(self, nro):
-        # Cantidad de veces que salio nro / total de tiradas, hasta la tirada X
-        x = np.linspace(0, 2, 100)
-        frecuencia = self.ganadores[0:x].count(nro)
-        y = frecuencia / x
+    def firstGanadores(self,x):
+        return np.array(self.ganadores[0:x])
+
+    # genera n ganadores de la ruleta y los agrega a la lista de resultados
+    def girar(self, n):
+        tiradas = np.random.randint(0, self.nroMaximo+1, n)
+        self.ganadores.extend(tiradas)
+
+    # grafica la cantidad de veces que salio cada numero en la lista de resultados
+    def graficarBarchartGanadores(self):
+        fig = plt.figure()
+        valores, cantidades = np.unique(self.ganadoresArray(), return_counts=True)
+        bar = plt.bar(valores, cantidades) 
+        plt.title("Jugadas totales: " + str(len(self.ganadores)))
+        plt.show()
+
+    # grafica la suma de los ganadores / total de tiradas en funcion de cantidad de tiradas
+    def graficarFrecuenciaRelativa(self):
+        x = np.linspace(0, len(self.ganadores), len(self.ganadores))
+        y = [sum(self.firstGanadores(x+1))/(x+1) for x in range (len(self.ganadores))]
         self.crearGrafico(x,y)
  
+    # grafica la media de los nros ganadores obtenidos en funcion de tiradas
     def graficarMedia(self):
-        x = np.linspace(0, 2, 100)
-        y = np.mean(self.ganadores[0:x]) # calcula la media hasta el ganador X de la ruleta
+        x = np.linspace(0, len(self.ganadores), len(self.ganadores))
+        y = [np.mean(self.firstGanadores(x)) for x in range (len(self.ganadores))] 
+        self.crearGrafico(x,y)
 
-        fig, ax = plt.subplots()  # Crea una figura y ejes
-        ax.plot(x, y)  # Plotear datos en los ejes
-        ax.set_xlabel('# jugadas')  # Titulo eje x
-        ax.set_ylabel('Media')  # Titulo eje y
-        ax.set_title("Media en funcion de cantidad de tiros")  # Titulo
-        ax.legend()  # Add a legend
-        plt.show() 
-        
     def graficarVarianza(self):
         self.graficarFrecuenciaRelativa()
 
@@ -44,19 +51,21 @@ class Ruleta():
     def getGraficos(self):
         self.graficarFrecuenciaRelativa()
 
-     def crearGrafico(x, y):
+    def crearGrafico(self, x, y):
         fig, ax = plt.subplots()  # Crea una figura y ejes
         ax.plot(x, y)  # Plotear datos en los ejes
         ax.set_xlabel('# jugadas')  # Titulo eje x
-        ax.set_ylabel('Media')  # Titulo eje y
-        ax.set_title("Media en funcion de cantidad de tiros")  # Titulo
+        ax.set_ylabel('Y LABEL')  # Titulo eje y
+        ax.set_title("Titulo")  # Titulo
         ax.legend()  # Add a legend
         plt.show() 
 
 
 
-
-
-
+ruleta = Ruleta()
+ruleta.girar(200)
+#ruleta.graficarBarchartGanadores()
+ruleta.graficarFrecuenciaRelativa()
+ruleta.graficarMedia()
 
 
