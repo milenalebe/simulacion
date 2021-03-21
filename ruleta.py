@@ -29,27 +29,39 @@ class Ruleta():
         plt.show()
 
     # grafica la suma de los ganadores / total de tiradas en funcion de cantidad de tiradas
-    def graficarFrecuenciaRelativa(self):
+    # TODO: en realidad es graficar la cantidad de veces que sale un nro repecto del total de tiradas
+    def graficarFrecuenciaRelativa(self, ):
         x = np.linspace(0, len(self.ganadores), len(self.ganadores))
-        y = [sum(self.firstGanadores(x+1))/(x+1) for x in range (len(self.ganadores))]
-        self.crearGrafico(x,y)
+        y = [sum(self.firstGanadores(x+1))/(x+1) for x in range(len(self.ganadores))]
+        self.crearGrafico(x,y) 
  
     # grafica la media de los nros ganadores obtenidos en funcion de tiradas
     def graficarMedia(self):
+        x = np.arange(len(self.ganadores))
+        y = [np.mean(self.firstGanadores(x)) for x in range(len(self.ganadores))] 
+        self.crearGrafico(x,y)
+
+
+    #TODO: verificar que np.variance esta calculando bien
+    def graficarVarianza(self):
+        x = np.linspace(0, len(self.ganadores), len(self.ganadores))
+        y = [np.variance(self.firstGanadores(x)) for x in range(len(self.ganadores))] 
+        self.crearGrafico(x,y)
+
+    #TODO: np.desvio??
+    def graficarDesvio(self):
         x = np.linspace(0, len(self.ganadores), len(self.ganadores))
         y = [np.mean(self.firstGanadores(x)) for x in range (len(self.ganadores))] 
         self.crearGrafico(x,y)
 
-    def graficarVarianza(self):
-        self.graficarFrecuenciaRelativa()
-
-    def graficarDesvio(self):
-        self.graficarFrecuenciaRelativa()
-        
     
      # crea todos los graficos pedidos
     def getGraficos(self):
-        self.graficarFrecuenciaRelativa()
+    self.graficarBarchartGanadores()
+    self.graficarFrecuenciaRelativa()
+    self.graficarMedia()
+    self.graficarVarianza()
+    self.graficarDesvio()
 
     def crearGrafico(self, x, y):
         fig, ax = plt.subplots()  # Crea una figura y ejes
@@ -67,5 +79,6 @@ ruleta.girar(200)
 #ruleta.graficarBarchartGanadores()
 ruleta.graficarFrecuenciaRelativa()
 ruleta.graficarMedia()
-
+ruleta.graficarVarianza()
+ruleta.graficarDesvio()
 
